@@ -1,32 +1,14 @@
-Frontend Coding Challenge Hopkins
-=================
-This challenge is about building a small interface that shows the weather for the next 3 days. As a user I would want to be able to use it to get the following information.
+![Screenshot](screenshot.png)
 
-### Requirements
-1. In the morning I want to check the weather for today to make sure that I can dress accordingly.
-2. Sometimes, when I leave home for the weekend, I want to make sure that it's not too windy, as I have sensitive plants on my balcony that I would have to put into my flat otherwise.
-3. I also want to be able to set whether I need rain or not. My plants should stay hydrated.
-4. I am usually checking the wheather on my phone, so it should be responsive
+Run `npm install` and `npm start` in order to start locally
 
-### Goal
-Come up with a nice interface that addresses the user's needs. 
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in the browser.
 
-### Rules
-- Use React as the sorrounding framework
-- You are allowed to import other libraries for the interface such as MaterialUI, AntDesign, styled-components ...
-- Please do not spend more than 1 to 2 hours for this challenge
-- Do all the editing within this glitch. This helps us to understand the steps you took better
+The page will reload if you make edits.
+You will also see any lint errors in the console.
 
-
-### The API
-Please use the openweathermap API for this challenge
-
-**Documentation**
-```
+The project uses openweathermap API
 https://openweathermap.org/api/hourly-forecast
-```
 
-A sample call for the next 96 hours:
-```
-https://samples.openweathermap.org/data/2.5/forecast/hourly?q=Berlin,us&appid=b6907d289e10d714a6e88b30761fae22
-```
+It is currently deployed at: https://weatherapp.iammmai.vercel.app/
