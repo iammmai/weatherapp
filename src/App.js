@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
 import {
   format,
@@ -36,7 +36,7 @@ function WeatherInfo({ displayChoice }) {
       ? parseDay(weatherData.current)
       : parseWeekend(weatherData);
   return (
-    <div className="Card">
+    <div>
       <div className="WeatherDisplayContainer">
         {data.map((day) => (
           <WeatherDisplay {...day} />
@@ -94,6 +94,7 @@ const parseWeekend = (raw) => {
 function WeatherDisplay({ date, description, temperature, iconId }) {
   const day = isSameDay(new Date(), date) ? "Today" : format(date, "EEEE");
   const iconURL = `http://openweathermap.org/img/wn/${iconId}@4x.png`;
+  const tempColor = temperature >= 12 ? "warm" : "cold";
   return (
     <div className="WeatherDisplay" key={day}>
       <div className="Date">
@@ -102,7 +103,7 @@ function WeatherDisplay({ date, description, temperature, iconId }) {
       </div>
       <img src={iconURL} alt="icon" />
       <p>{description}</p>
-      <p id="temperature">{Math.round(temperature)} ºC</p>
+      <p className={`temperature ${tempColor}`}>{Math.round(temperature)} ºC</p>
       <p>{advice[iconId] ? advice[iconId] : "Just another day"}</p>
     </div>
   );
@@ -114,12 +115,22 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <WeatherInfo displayChoice={displayChoice} />
+        <div className="Card">
+          <WeatherInfo displayChoice={displayChoice} />
+        </div>
         <div className="contentContainer">
-          <button name="dateButton" onClick={() => setDisplayChoice("today")}>
+          <button
+            className="btn"
+            name="dateButton"
+            onClick={() => setDisplayChoice("today")}
+          >
             Today
           </button>
-          <button name="dateButton" onClick={() => setDisplayChoice("weekend")}>
+          <button
+            className="btn"
+            name="dateButton"
+            onClick={() => setDisplayChoice("weekend")}
+          >
             Weekend
           </button>
         </div>
