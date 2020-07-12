@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="Card">
+        <div className="card">
           <WeatherInfo displayChoice={displayChoice} />
         </div>
         <div className="contentContainer">

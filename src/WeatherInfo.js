@@ -1,15 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
-    format,
-    isSameDay,
-    fromUnixTime,
-    isWeekend,
-    isThisWeek,
-    differenceInCalendarDays,
-  } from "date-fns";
-  import Switch from "react-switch";
-  import { Spinner } from "./Spinner";
-
+  format,
+  isSameDay,
+  fromUnixTime,
+  isWeekend,
+  isThisWeek,
+  differenceInCalendarDays,
+} from "date-fns";
+import Switch from "react-switch";
+import { Spinner } from "./Spinner";
 
 const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
 const isNextWeekend = (date) => {
@@ -30,7 +30,7 @@ const advice = {
   "50d": "Be careful when you drive!",
 };
 
-const parseDay = (day) => {
+const formatWeather = (day) => {
   return [
     {
       date: fromUnixTime(day.dt),
@@ -41,8 +41,8 @@ const parseDay = (day) => {
   ];
 };
 
-const parseWeekend = (raw) => {
-  const parsed = raw.daily.flatMap((day) => parseDay(day));
+const getUpcomingWeekend = (raw) => {
+  const parsed = raw.daily.flatMap((day) => formatWeather(day));
   if (isWeekend(new Date())) {
     return parsed.filter((day) => isNextWeekend(day.date));
   }
@@ -56,8 +56,8 @@ function WeatherDisplay({ date, description, temperature, iconId }) {
   const iconURL = `http://openweathermap.org/img/wn/${iconId}@4x.png`;
   const tempColor = temperature >= 12 ? "warm" : "cold";
   return (
-    <div className="WeatherDisplay" key={day}>
-      <div className="Date">
+    <li className="weatherDisplay">
+      <div className="date">
         <h3>{day}</h3>
         <p>{format(date, "PP")}</p>
       </div>
@@ -65,46 +65,59 @@ function WeatherDisplay({ date, description, temperature, iconId }) {
       <p>{description}</p>
       <p className={`temperature ${tempColor}`}>{Math.round(temperature)} ºC</p>
       <p>{advice[iconId] ? advice[iconId] : "Just another day"}</p>
-    </div>
+    </li>
   );
 }
 
+WeatherDisplay.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
+  description: PropTypes.string.isRequired,
+  temperature: PropTypes.number.isRequired,
+  iconId: PropTypes.string.isRequired,
+};
+
 export function WeatherInfo({ displayChoice }) {
-    const [weatherData, setWeatherData] = React.useState(null);
-    const [wateringOn, setWateringOn] = React.useState(false);
-    React.useEffect(() => {
-      fetch(
-        "https://api.openweathermap.org/data/2.5/onecall?lat=52.5200&lon=13.4050&exclude=hourly,minutely&&units=metric&appid=43bbfae6b2cee11fcefb3bc03472ef9a"
-      )
-        .then((response) => response.json())
-        .then((data) => setWeatherData(data));
-    }, []);
-  
-    if (!weatherData) {
-      return <Spinner />;
-    }
-    const data =
-      displayChoice === "today"
-        ? parseDay(weatherData.current)
-        : parseWeekend(weatherData);
-    return (
-      <div>
-        <div className="WeatherDisplayContainer">
-          {data.map((day) => (
-            <WeatherDisplay {...day} />
-          ))}
-        </div>
-        {displayChoice === "weekend" ? (
-          <div className="contentContainer">
-            <p>Activate automatic watering system 🌱: </p>
-            <Switch
-              onChange={() => setWateringOn(!wateringOn)}
-              checked={wateringOn}
-            />
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-    );
+  const [weatherData, setWeatherData] = React.useState(null);
+  const [wateringOn, setWateringOn] = React.useState(false);
+  React.useEffect(() => {
+    fetch(
+      "https://api.openweathermap.org/data/2.5/onecall?lat=52.5200&lon=13.4050&exclude=hourly,minutely&&units=metric&appid=43bbfae6b2cee11fcefb3bc03472ef9a"
+    )
+      .then((response) => response.json())
+      .then((data) => setWeatherData(data));
+  }, []);
+
+  if (!weatherData) {
+    return <Spinner />;
   }
+  const data =
+    displayChoice === "today"
+      ? formatWeather(weatherData.current)
+      : getUpcomingWeekend(weatherData);
+  return (
+    <div>
+      <div className="weatherDisplayContainer">
+        {data.map((day) => (
+          <WeatherDisplay {...day} key={day.date} />
+        ))}
+      </div>
+      {displayChoice === "weekend" ? (
+        <div className="contentContainer">
+          <p>
+            Activate automatic watering system{" "}
+            <span role="img" aria-label="Seedling">
+              🌱
+            </span>
+            :{" "}
+          </p>
+          <Switch
+            onChange={() => setWateringOn(!wateringOn)}
+            checked={wateringOn}
+          />
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
+  );
+}
