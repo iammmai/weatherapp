@@ -1,4 +1,4 @@
-![Screenshot](screenshot.png)
+[![screenshot](screenshot.png)](https://weatherapp.iammmai.vercel.app/)
 
 Run `npm install` and `npm start` in order to start locally
 
