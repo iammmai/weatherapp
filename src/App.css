@@ -17,25 +17,46 @@
 .Card {
   display: flex;
   margin: auto;
-  width: max-content;
-  min-width: 30vw;
+  max-width: 80vw;
   min-height: 75vh;
   height: auto;
   background-color: rgba(57, 78, 121, 0.5);
   border-radius: 5%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  flex-flow: column wrap;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.WeatherDisplayContainer {
+  display: flex;
+  margin: auto;
+  max-width: 80vw;
+  min-height: 75vh;
+  height: auto;
   flex-flow: row wrap;
   justify-content: space-around;
   list-style: none;
 }
 
-.buttonContainer {
+.Card p {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+    Helvetica, Arial, "Lucida Grande", sans-serif;
+  color: white;
+  max-width: 250px;
+  min-height: max-content;
+  font-size: medium;
   margin: auto;
-  width: 50vw;
-  height: 30px;
+  padding: 25px;
+}
+
+.contentContainer {
+  margin: auto;
+  height: max-content;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+  align-items: center;
 }
 
 .WeatherDisplay {
@@ -45,7 +66,7 @@
   max-width: 250px;
   font-size: medium;
   margin: auto;
-  padding: 20px;
+  padding: 30px 30px 0px 30px;
 }
 .Date {
   line-height: 0.5;
@@ -55,5 +76,11 @@
   color: #3dcafa;
   font-size: xx-large;
   font-weight: bold;
-  margin: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.switch {
+  vertical-align: middle;
+  margin: auto;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.css";
 import {
   format,
@@ -8,9 +8,17 @@ import {
   isThisWeek,
   differenceInCalendarDays,
 } from "date-fns";
+import Switch from "react-switch";
+
+const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
+const isNextWeekend = (date) => {
+  const diff = differenceInCalendarDays(date, new Date());
+  return diff >= 6 && diff <= 9 && isWeekend(date);
+};
 
 function WeatherInfo({ displayChoice }) {
   const [weatherData, setWeatherData] = React.useState(null);
+  const [wateringOn, setWateringOn] = React.useState(false);
   React.useEffect(() => {
     fetch(
       "https://api.openweathermap.org/data/2.5/onecall?lat=52.5200&lon=13.4050&exclude=hourly,minutely&&units=metric&appid=43bbfae6b2cee11fcefb3bc03472ef9a"
@@ -27,12 +35,24 @@ function WeatherInfo({ displayChoice }) {
     displayChoice === "today"
       ? parseDay(weatherData.current)
       : parseWeekend(weatherData);
-  console.log(JSON.stringify(data, null, 2));
   return (
     <div className="Card">
-      {data.map((day) => (
-        <WeatherDisplay {...day} />
-      ))}
+      <div className="WeatherDisplayContainer">
+        {data.map((day) => (
+          <WeatherDisplay {...day} />
+        ))}
+      </div>
+      {displayChoice === "weekend" ? (
+        <div className="contentContainer">
+          <p>Automatic watering system 🌱: </p>
+          <Switch
+            onChange={() => setWateringOn(!wateringOn)}
+            checked={wateringOn}
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
@@ -46,7 +66,6 @@ const advice = {
   "03d": "A nice day to spend outside",
   "04d": "Don't look so gloomy, it's just the weather",
   "11d": "Better stay inside!",
-  "09d": "Just a few drops",
   "13d": "Make sure to put on some gloves today",
   "50d": "Be careful when you drive!",
 };
@@ -60,12 +79,6 @@ const parseDay = (day) => {
       iconId: day.weather[0].icon,
     },
   ];
-};
-
-const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
-const isNextWeekend = (date) => {
-  const diff = differenceInCalendarDays(date, new Date());
-  return diff >= 6 && diff <= 9 && isWeekend(date);
 };
 
 const parseWeekend = (raw) => {
@@ -102,7 +115,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <WeatherInfo displayChoice={displayChoice} />
-        <div className="buttonContainer">
+        <div className="contentContainer">
           <button name="dateButton" onClick={() => setDisplayChoice("today")}>
             Today
           </button>
