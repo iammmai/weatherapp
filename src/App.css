@@ -3,34 +3,57 @@
 }
 
 .App-header {
-  background-image: -webkit-linear-gradient(315deg, #ff6c79 0%, #3d97fb 100%);
-  background-image: linear-gradient(135deg, #ff6c79 0%, #3d97fb 100%);
+  background-image: -webkit-linear-gradient(360deg, #ff6c79 0%, #3d97fb 100%);
+  background-image: linear-gradient(150deg, #ff6c79 0%, #3d97fb 100%);
   min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .Card {
+  display: flex;
   margin: auto;
-  width: 50vw;
-  height: 70vh;
-  background-color: rgba(46, 56, 80, 0.75);
+  width: max-content;
+  min-width: 30vw;
+  min-height: 75vh;
+  height: auto;
+  background-color: rgba(57, 78, 121, 0.5);
   border-radius: 5%;
-  color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
-    Helvetica, Arial, "Lucida Grande", sans-serif;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  list-style: none;
 }
 
+.buttonContainer {
+  margin: auto;
+  width: 50vw;
+  height: 30px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.WeatherDisplay {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+    Helvetica, Arial, "Lucida Grande", sans-serif;
+  color: white;
+  max-width: 250px;
+  font-size: medium;
+  margin: auto;
+  padding: 20px;
+}
 .Date {
   line-height: 0.5;
 }
 
 #temperature {
   color: #3dcafa;
-  font-size: large;
+  font-size: xx-large;
+  font-weight: bold;
+  margin: 10px;
 }
